@@ -40,6 +40,8 @@ https://learn.microsoft.com/en-us/minecraft/creator/documents/chunkeroverview?vi
 App Usage
 --------
 
+### Desktop Application
+
 You can find pre-built copies of Chunker in the [releases section](https://github.com/HiveGamesOSS/Chunker/releases).
 Otherwise, see the building section on how to build Chunker yourself.
 
@@ -50,6 +52,19 @@ Chunker defaults to a maximum of 75% of available memory, you can customise this
 Chunker e.g. `Chunker.exe -Xmx8G` for 8 gigabytes.
 
 Chunker forwards `-Xmx` and `-Xms` to the backing JVM, if you wish to supply other options use `--java-options="..."`.
+
+### Web Application
+
+Chunker can also be run as a web application, allowing you to convert worlds without installing any software:
+
+**Quick Start:**
+
+1. Build the project: `./gradlew build`
+2. Build the UI: `cd app/ui && npm install && npm run build`
+3. Start the web server: `cd ../web && npm install && npm start`
+4. Open your browser to `http://localhost:3001`
+
+See the [Web Server README](app/web/README.md) for detailed deployment instructions, including Docker support.
 
 CLI Usage
 --------
