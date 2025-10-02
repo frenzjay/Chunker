@@ -1,7 +1,30 @@
 const fs = require('fs');
 const path = require('path');
-const { promisify } = require('util');
-const glob = promisify(fs.glob);
+
+// Simple glob implementation for finding JSON files recursively
+function glob(pattern, options) {
+    const results = [];
+    const dir = options.cwd || process.cwd();
+    
+    function walk(currentPath, relativePath = '') {
+        const files = fs.readdirSync(currentPath);
+        
+        for (const file of files) {
+            const fullPath = path.join(currentPath, file);
+            const relPath = path.join(relativePath, file);
+            const stat = fs.statSync(fullPath);
+            
+            if (stat.isDirectory()) {
+                walk(fullPath, relPath);
+            } else if (file.endsWith('.json')) {
+                results.push(relPath);
+            }
+        }
+    }
+    
+    walk(dir);
+    return Promise.resolve(results);
+}
 
 // Process all the block data in the local `data` folder and output to `public/data`, this formats the java reports /
 // bedrock data into a format that Chunker uses for suggestions.

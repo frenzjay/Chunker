@@ -1,9 +1,13 @@
 import React from "react";
 import {BaseScreen} from "../baseScreen";
 import {SaveScreen} from "../save/saveScreen";
+import {SaveScreenWeb} from "../save/saveScreenWeb";
 import api from "../../../api";
 import {ProgressComponent, ProgressTracker} from "../../progress";
 import {getVersionName} from "../mode/modeOption";
+
+// Detect if we're running in web mode
+const isWebMode = window.chunker && window.chunker.platform === "web";
 
 export class ProcessingScreen extends BaseScreen {
     mounted = true;
@@ -30,7 +34,7 @@ export class ProcessingScreen extends BaseScreen {
         super.componentDidMount();
     };
 
-    nextScreen = () => this.app.setScreen(SaveScreen);
+    nextScreen = () => this.app.setScreen(isWebMode ? SaveScreenWeb : SaveScreen);
 
     convert = () => {
         // Setup conversion
