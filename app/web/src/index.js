@@ -31,10 +31,23 @@ function findCliPath() {
         "/app/chunker-cli.jar", // Docker path
     ];
 
-    for (const cliPath of possiblePaths) {
-        if (fs.existsSync(cliPath)) {
-            console.log("Found CLI at:", cliPath);
-            return cliPath;
+    for (const basePath of possiblePaths) {
+        // Try base path first
+        if (fs.existsSync(basePath)) {
+            console.log("Found CLI at:", basePath);
+            return basePath;
+        }
+        
+        // Try to find versioned jar in the directory
+        const dir = path.dirname(basePath);
+        if (fs.existsSync(dir)) {
+            const files = fs.readdirSync(dir);
+            const jarFile = files.find(f => f.startsWith('chunker-cli') && f.endsWith('.jar') && !f.includes('unshaded'));
+            if (jarFile) {
+                const fullPath = path.join(dir, jarFile);
+                console.log("Found CLI at:", fullPath);
+                return fullPath;
+            }
         }
     }
 

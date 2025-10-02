@@ -1,6 +1,5 @@
 import React from "react";
 import {BaseScreen} from "../baseScreen";
-import api from "../../../api";
 import {Round2DP} from "../../progress";
 import {getVersionName} from "../mode/modeOption";
 
