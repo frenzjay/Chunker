@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import {SelectWorldScreen} from "./screen/select/selectWorldScreen";
+import {SelectWorldScreenWeb} from "./screen/select/selectWorldScreenWeb";
 import api from "../api";
 import {ProgressTracker} from "./progress";
 import {Header} from "./page/header";
@@ -8,6 +9,9 @@ import {ErrorDisplay} from "./modal/errorDisplay";
 import {Footer} from "./page/footer";
 import {decode} from "base64-arraybuffer"
 import {getVersionName} from "./screen/mode/modeOption";
+
+// Detect if we're running in web mode (not Electron)
+const isWebMode = window.chunker && window.chunker.platform === "web";
 
 export class App extends Component {
     errorModal = React.createRef();
@@ -33,7 +37,7 @@ export class App extends Component {
         requestedPreview: false,
         showError: false,
         stage: 1,
-        screen: SelectWorldScreen,
+        screen: isWebMode ? SelectWorldScreenWeb : SelectWorldScreen,
         sessionData: undefined,
         inputType: undefined,
         outputType: undefined,
